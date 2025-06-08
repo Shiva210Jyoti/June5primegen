@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prime Number Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 20px 40px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #000;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    input[type="number"], textarea {
+      width: 100%;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      height: 80px;
+      resize: none;
+    }
+
+    button {
+      padding: 6px 12px;
+      background-color: #ccc;
+      border: 1px solid #999;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #bbb;
+    }
+
+    .btn-cell {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Prime Number Generator</h2>
+    <form id="primeForm">
+      <table border="1">
+        <tr>
+          <td><label for="start">Start</label></td>
+          <td><input type="number" id="start" required></td>
+        </tr>
+        <tr>
+          <td><label for="end">End</label></td>
+          <td><input type="number" id="end" required></td>
+        </tr>
+        <tr>
+          <td><label for="result">Prime Number</label></td>
+          <td><textarea id="result" readonly></textarea></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="btn-cell">
+            <button type="submit">Generate</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <script>
+    function isPrime(n) {
+      if (n < 2) return false;
+      for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+      }
+      return true;
+    }
+
+    document.getElementById("primeForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const start = parseInt(document.getElementById("start").value);
+      const end = parseInt(document.getElementById("end").value);
+      const resultArea = document.getElementById("result");
+
+      resultArea.value = "";
+
+      if (isNaN(start) || isNaN(end) || start > end) {
+        resultArea.value = "Please enter a valid range.";
+        return;
+      }
+
+      const primes = [];
+      for (let i = start; i <= end; i++) {
+        if (isPrime(i)) {
+          primes.push(i);
+        }
+      }
+
+      resultArea.value = primes.length > 0 ? primes.join(", ") : "No prime numbers in this range.";
+    });
+  </script>
+</body>
+</html>
